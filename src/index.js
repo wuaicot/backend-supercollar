@@ -78,9 +78,9 @@ app.use(fileUpload({
 }));
 
 // ✅ Ruta de salud para monitoreo (excluida de HTTPS)
-app.get('/health', (req, res) => {
-  res.status(200).send('OK');
-});
+// app.get('/health', (req, res) => {
+//   res.status(200).send('OK');
+// });
 
 // ✅ Rutas de la API
 app.use('/api/auth', authRoutes);
