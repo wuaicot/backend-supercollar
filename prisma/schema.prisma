@@ -1,0 +1,42 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      String   @default("owner")
+  createdAt DateTime @default(now())
+  pets      Pet[]
+}
+
+model Pet {
+  id          Int       @id @default(autoincrement())
+  name        String
+  type        String
+  qrId        String    @unique @default(uuid())
+  photoUrl    String?
+  ownerId     Int
+  createdAt   DateTime  @default(now())
+  description String?
+  deletedAt   DateTime?
+  alerts      Alert[]
+  owner       User      @relation(fields: [ownerId], references: [id])
+}
+
+model Alert {
+  id         Int       @id @default(autoincrement())
+  petId      Int
+  location   String?
+  status     String    @default("lost")
+  createdAt  DateTime  @default(now())
+  reportedAt DateTime?
+  pet        Pet       @relation(fields: [petId], references: [id])
+}

@@ -1,0 +1,98 @@
+./MASCOTA-PERDIDA_APP/
+├──client/           
+├──server/
+│  ├── .ebextensions/
+│  │   ├── 03-configure-https.config
+│  │   ├── 04-configure-nginx-port.config
+│  │   ├── node.config
+│  ├── .elasticbeanstalk/
+│  │   ├── config.yml   
+│  ├── config/
+│  │   ├── lost-pet-app-fb-firebase.json  
+│  ├── node_modules/                  
+│  ├── prisma/                          
+│  │   ├── migrations/                  
+│  │   ├── schema.prisma                
+│  ├── src/                              
+│  │   ├── controllers/                  
+│  │   ├── alertsController.js       
+│  │   ├── authController.js         
+│  │   ├── petsController.js         
+│  ├── middleware/                   
+│  │   ├── authMiddleware.js
+│  │   ├── rateLimiter.js         
+│  ├── routes/                       
+│  │   ├── alerts.js                 
+│  │   ├── auth.js                   
+│  │   ├── pets.js                   
+│  ├── utils/                        
+│  │   ├── email.js
+│  │   ├── notification.js                  
+│  │   ├── storage.js                
+│  ├── index.js                   
+│  ├── tmp/
+│  ├── .env                         
+│  ├── .txt                              
+│  ├── package-lock.json
+│  ├── package.json
+│  ├── Procfile
+│
+├── .gitignore   
+├── .txt
+├── descktop.ini
+├── README.md
+END.
+
+
+------------------------------------------------
+                CONTRASEÑA DE APLICACIÓN
+https://myaccount.google.com/apppasswords?rapt=AEjHL4Nu2UwCVfoaKZ8tBw6Tq77RbB1aJvNwHEH_GDHZWJ-dimwmnnON8qduOefbYVjla6PMjt6hsApTYtnWnjgBtYmtae8SZFWnjsw-01kAJ4-pIUM4f1A
+
+comandos para generar la estructura del proyecto en un archivo llamado estructura.txt
+
+"tree /D > directorios.txt" y "tree /F > estructura.txt"
+_______________________________________________________________________________
+
+nslookup -type=CNAME supercollar.win
+
+eb status
+eb printenv
+eb deploy
+eb health
+
+aws iam list-instance-profiles --query "InstanceProfiles[*].InstanceProfileName"
+
+aws rds describe-db-instances --query "DBInstances[*].DBInstanceStatus"
+aws rds describe-db-instances --query "DBInstances[*].DBInstanceIdentifier"
+aws rds describe-db-instances
+aws rds describe-db-clusters
+
+
+aws elasticbeanstalk describe-environments --query "Environments[*].EnvironmentId"
+aws elasticbeanstalk describe-applications
+aws elasticbeanstalk describe-environments --region us-east-1
+aws elasticbeanstalk delete-application --application-name <nombre_de_aplicacion --terminate-env-by-force
+aws elasticbeanstalk describe-configuration-settings --application-name "supercollarwin-aplicacion" --environment-name "supercollarwin-entorno" --query "ConfigurationSettings[].OptionSettings[?OptionName=='IamInstanceProfile']" --output table
+
+Remove-Item -Recurse -Force .elasticbeanstalk
+
+aws ec2 describe-key-pairs --query "KeyPairs[*].KeyName"
+aws ec2 describe-key-pairs --key-name super-collar-Ec2-keypair --region us-east-1
+
+aws s3api get-bucket-acl --bucket images-app-lost-pet
+aws s3 ls
+aws s3api get-bucket-location --bucket images-app-lost-pet
+
+npx prisma db pull
+
+♦ Verifica la resolución DNS con:
+nslookup supercollarwin-entorno.eba-g3hemtif.us-east-1.elasticbeanstalk.com
+
+
+------------------------------------------------------
+SELECT * FROM "User" WHERE id = 1;
+SELECT * FROM "Pet" WHERE ownerId = 1;
+SELECT u.*, p.*
+FROM "User" u
+LEFT JOIN "Pet" p ON u.id = p."ownerId"
+WHERE u.id = 1;

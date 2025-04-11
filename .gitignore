@@ -1,0 +1,10 @@
+.env
+config/
+node_modules/
+package-lock.json
+dist/
+
+
+tmp/
+
+
