@@ -12,12 +12,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-app.options('*', cors({
+app.use(cors({
   origin: process.env.CLIENT_URL,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true  // Agrega esto para habilitar el manejo de cookies/credenciales
 }));
+
 
 
 app.use(express.json({ limit: '5mb' }));
