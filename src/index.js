@@ -22,15 +22,15 @@ if (NODE_ENV === 'production') {
 }
 
 // ✅ Redirección a HTTPS en producción (excepto para /health)
-if (NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    if (req.url === '/health') return next();
-    if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect(301, `https://${req.headers.host}${req.url}`);
-    }
-    next();
-  });
-}
+// if (NODE_ENV === 'production') {
+//   app.use((req, res, next) => {
+//     if (req.url === '/health') return next();
+//     if (req.headers['x-forwarded-proto'] !== 'https') {
+//       return res.redirect(301, `https://${req.headers.host}${req.url}`);
+//     }
+//     next();
+//   });
+// }
 
 // ✅ Configuración de CORS según entorno
 const allowedOrigin = NODE_ENV === 'development'
@@ -42,7 +42,7 @@ console.log(`🌍 Origen permitido: ${allowedOrigin}`);
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Permitir las peticiones sin origen (e.g. Postman o cURL) o si coinciden con la URL permitida
+   
     if (!origin || origin === allowedOrigin) {
       return callback(null, true);
     }
