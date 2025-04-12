@@ -3,11 +3,9 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
-const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const helmet = require('helmet');
 
-// Rutas
+// Rutas de la API
 const authRoutes = require('./routes/auth');
 const petRoutes = require('./routes/pets');
 const alertRoutes = require('./routes/alerts');
@@ -16,25 +14,21 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
-// Seguridad extra: solo en producción se incluye Helmet
-if (NODE_ENV === 'production') {
-  app.use(helmet());
-}
+// Configurar el origen permitido:
+// En producción, se debe usar la variable de entorno CLIENT_URL definida
+// con el dominio real del cliente (por ejemplo, 'https://mascota-perdida-app-qkxp.vercel.app')
+// En desarrollo, se asume 'http://localhost:3000'
+const allowedOrigin = NODE_ENV === 'production' ? process.env.CLIENT_URL : 'http://localhost:3000';
 
-// Configuración de CORS para solicitudes con credenciales
-// Se define el origen permitido de forma explícita y se habilita "credentials"
-const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:3000';
 const corsOptions = {
-  origin: allowedOrigin,
-  credentials: true,
+  origin: allowedOrigin, // Se define el origen permitido de forma explícita
+  credentials: true,     // Se habilitan las credenciales para solicitudes que lo requieran
 };
 
-// Aplicamos la configuración de CORS
 app.use(cors(corsOptions));
 
-// Middlewares esenciales
+// Middleware para parsear JSON (sin cookieParser ni helmet)
 app.use(express.json({ limit: '5mb' }));
-app.use(cookieParser());
 
 // Middleware para manejo de archivos
 app.use(fileUpload({
@@ -63,7 +57,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-// Logging profesional con Morgan
+// Configuración de logging con Morgan
 if (NODE_ENV === 'development') {
   app.use(morgan('dev'));
 } else {
@@ -73,8 +67,4 @@ if (NODE_ENV === 'development') {
 // Inicio del servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
-  if (NODE_ENV === 'development') {
-    console.log(`🌐 Accede en: http://localhost:${PORT}`);
-  }
-  console.log(`📁 Carpeta de archivos temporales: ${path.resolve('./tmp')}`);
 });
