@@ -1,12 +1,4 @@
 ./MASCOTA-PERDIDA_APP/
-├──client/           
-├──server/
-│  ├── .ebextensions/
-│  │   ├── 03-configure-https.config
-│  │   ├── 04-configure-nginx-port.config
-│  │   ├── node.config
-│  ├── .elasticbeanstalk/
-│  │   ├── config.yml   
 │  ├── config/
 │  │   ├── lost-pet-app-fb-firebase.json  
 │  ├── node_modules/                  
