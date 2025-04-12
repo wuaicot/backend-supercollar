@@ -41,18 +41,22 @@ console.log(`✅ Entorno: ${NODE_ENV}`);
 console.log(`🌍 Origen permitido: ${allowedOrigin}`);
 
 const corsOptions = {
-  origin: true, // Refleja el origin de la solicitud automáticamente
+  origin: (origin, callback) => {
+    if (NODE_ENV === 'development' && origin === 'http://localhost:3000') {
+      callback(null, true);
+    } else if (NODE_ENV === 'production' && origin === process.env.CLIENT_URL) {
+      callback(null, true);
+    } else if (!origin) { // Permitir peticiones sin origin (como las de Postman o cURL)
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ["GET", "POST", "OPTIONS", "DELETE"],
   credentials: true,
-  methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  preflightContinue: false,
-  optionsSuccessStatus: 204
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Responde a OPTIONS preflight para cualquier ruta
-
-
 
 // ✅ Logging con Morgan
 if (NODE_ENV === 'development') {
