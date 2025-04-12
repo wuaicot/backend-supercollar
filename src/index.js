@@ -15,19 +15,20 @@ const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Configurar el origen permitido:
-// En producción, se debe usar la variable de entorno CLIENT_URL definida
-// con el dominio real del cliente (por ejemplo, 'https://mascota-perdida-app-qkxp.vercel.app')
-// En desarrollo, se asume 'http://localhost:3000'
+// En producción, se usa la variable de entorno CLIENT_URL
+// En desarrollo se asume 'http://localhost:3000'
 const allowedOrigin = NODE_ENV === 'production' ? process.env.CLIENT_URL : 'http://localhost:3000';
 
 const corsOptions = {
-  origin: allowedOrigin, // Se define el origen permitido de forma explícita
-  credentials: true,     // Se habilitan las credenciales para solicitudes que lo requieran
+  origin: allowedOrigin,
+  credentials: true,
 };
 
+// Aplicamos la configuración de CORS de forma global y gestionamos solicitudes OPTIONS
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
-// Middleware para parsear JSON (sin cookieParser ni helmet)
+// Middleware para parsear JSON
 app.use(express.json({ limit: '5mb' }));
 
 // Middleware para manejo de archivos
@@ -42,9 +43,9 @@ app.use(fileUpload({
 }));
 
 // Ruta de salud para monitoreo
-app.get('/health', (req, res) => {
-  res.status(200).send('OK');
-});
+// app.get('/health', (req, res) => {
+//   res.status(200).send('OK');
+// });
 
 // Rutas de la API
 app.use('/api/auth', authRoutes);
