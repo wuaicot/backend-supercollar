@@ -88,4 +88,6 @@ SELECT u.*, p.*
 FROM "User" u
 LEFT JOIN "Pet" p ON u.id = p."ownerId"
 WHERE u.id = 1;
+$env:PGCLIENTENCODING="UTF8"
+
 •
